@@ -25,16 +25,21 @@
 
     </extensions>
     <actions>
-        <group id="org.intellij.sdk.action.GroupedActions"
-        text="Convert To"
-        popup="true"
-        icon="AllIcons.Actions.SetDefault">
-            <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="ProjectViewPopupMenuRefactoringGroup"/>
-            <action id="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToDataFormartAction"
-                    class="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToDataFormartAction" text="Test"
-            >
-            </action>
-        </group>
+        <group id="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToActionGroup"
+               class="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToActionGroup" text="Convert To" popup="true">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="after"
+                          relative-to-action="ProjectViewPopupMenuRefactoringGroup"/>
 
+            <action id="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToXMLAction"
+                    class="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToXMLAction" text="XML"/>
+
+            <action id="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToJSONAction"
+                    class="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToJSONAction" text="JSON"/>
+        </group>
+        <action id="de.hs_fl.sbg.plugins.datafile_converter.actions.GetFiletypeNameAction"
+                class="de.hs_fl.sbg.plugins.datafile_converter.actions.GetFiletypeNameAction" text="Get Filetype">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="after"
+                          relative-to-action="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToActionGroup"/>
+        </action>
     </actions>
 </idea-plugin>
