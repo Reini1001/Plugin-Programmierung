@@ -11,6 +11,9 @@ Ein Plugin zum konvertieren zwischen Datenspeichervormarten (xml, json, usw.).
 
 Neues Git-Hub weil wie den Projektnamen sonst nicht ändern können. Nehmen jetzt einen generischen Namen.
 
+Wir haben uns mir den `Actions` und `ActionGroups` auseinandergesetzt und konnten ein Mockup erstellen.
+> Das ist der Teil des Projekts der unsren Code in die IDE einbindet.
+
 ### Struktur
 
 - Daten in einem Zwischenschritt speichen
