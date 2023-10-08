@@ -4,11 +4,16 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import de.hs_fl.sbg.plugins.datafile_converter.converter.EFileType
+import de.hs_fl.sbg.plugins.datafile_converter.ui.OptionsPanel
+import de.hs_fl.sbg.plugins.datafile_converter.ui.OptionsPopupHandler
 
 class ConvertToJSONAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
-        TODO("Not yet implemented")
+        val popupPanel = OptionsPanel(EFileType.JSON, EFileType.valueOf(e.getData(CommonDataKeys.PSI_FILE)?.fileType?.name!!))
+
+        OptionsPopupHandler.makeOptionsPopup(popupPanel)
     }
 
     override fun update(e: AnActionEvent) {
@@ -16,7 +21,7 @@ class ConvertToJSONAction : AnAction() {
 
         val filetypeName = e.getData(CommonDataKeys.PSI_FILE)?.fileType?.name
 
-        e.presentation.isVisible = filetypeName != null  && "JSON" != filetypeName
+        e.presentation.isVisible = filetypeName != null && "JSON" != filetypeName
 
     }
 

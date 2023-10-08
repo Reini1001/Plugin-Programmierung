@@ -37,3 +37,21 @@ Für den `ActionUpdateThread` sollten wir uns eine Option aussuchen. Wir haben u
 Wir haben für `GetFiletypeName` erstmal ein `Confirmation`-Fenster verwendet. Wir müssen uns später für unsere anderen Fenster sowieso nochmal Swing angucken.
 
 In den `Actions` mussten wir die Typen nach den wir filtern leider hardcoden, da `Actions`, die von `AnAction` erben, keine Klassenfelder haben dürfen. ([siehe IntelliJDocs](https://plugins.jetbrains.com/docs/intellij/basic-action-system.html#action-implementation))
+
+## 04.10.23
+
+Das vorläufige Options-Fenster wurde durch ein simples Swing-Fester über `ComponentPopupBuilder` ausgetauscht.
+Dieses wird noch um Funktionen erweitert aber voraussichtlich nicht in der Implementierung verändert.
+
+In der `actionPerformed` Funktion haben wir die folgende Codezeile:
+
+```kotlin
+val popupPanel = OptionsPanel(EFileType.XML, EFileType.valueOf(e.getData(CommonDataKeys.PSI_FILE)?.fileType?.name!!))
+```
+
+Es gibt zwei potenzielle Fehlerquellen in der Zeile.
+
+1. Wir haben zwei stellen an dem Variablen null sein könnten von denen wir behaupten, dass sie es nicht sind.
+2. Da wir einen String zu einem Enum umwandeln kann dort ein Fehler auftreten, falls dem String kein Wert zugewiesen werden kann.
+
+Wir haben die Menüs so gestaltet, dass besagte Variable nicht null oder außerhalb der erwarteten Parameter liegen können.

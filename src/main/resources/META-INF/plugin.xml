@@ -26,7 +26,8 @@
     </extensions>
     <actions>
         <group id="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToActionGroup"
-               class="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToActionGroup" text="Convert To" popup="true">
+               class="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToActionGroup" text="Convert To"
+               popup="true">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="after"
                           relative-to-action="ProjectViewPopupMenuRefactoringGroup"/>
 

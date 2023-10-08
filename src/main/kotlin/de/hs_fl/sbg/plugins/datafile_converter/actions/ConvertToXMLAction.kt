@@ -4,11 +4,16 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import de.hs_fl.sbg.plugins.datafile_converter.converter.EFileType
+import de.hs_fl.sbg.plugins.datafile_converter.ui.OptionsPanel
+import de.hs_fl.sbg.plugins.datafile_converter.ui.OptionsPopupHandler
 
 class ConvertToXMLAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
-        TODO("Not yet implemented")
+        val popupPanel = OptionsPanel(EFileType.XML, EFileType.valueOf(e.getData(CommonDataKeys.PSI_FILE)?.fileType?.name!!))
+
+        OptionsPopupHandler.makeOptionsPopup(popupPanel)
     }
 
     override fun update(e: AnActionEvent) {
