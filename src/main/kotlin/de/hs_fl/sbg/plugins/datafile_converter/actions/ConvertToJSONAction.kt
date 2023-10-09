@@ -11,7 +11,7 @@ import de.hs_fl.sbg.plugins.datafile_converter.ui.OptionsPopupHandler
 class ConvertToJSONAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
-        val popupPanel = OptionsPanel(EFileType.JSON, EFileType.valueOf(e.getData(CommonDataKeys.PSI_FILE)?.fileType?.name!!))
+        val popupPanel = OptionsPanel(EFileType.JSON, e.getData(CommonDataKeys.PSI_FILE)!!)
 
         OptionsPopupHandler.makeOptionsPopup(popupPanel)
     }

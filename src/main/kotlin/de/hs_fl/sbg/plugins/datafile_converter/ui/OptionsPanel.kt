@@ -1,5 +1,7 @@
 package de.hs_fl.sbg.plugins.datafile_converter.ui
 
+import com.intellij.psi.PsiFile
+import de.hs_fl.sbg.plugins.datafile_converter.converter.Converter
 import de.hs_fl.sbg.plugins.datafile_converter.converter.EFileType
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
@@ -13,7 +15,7 @@ import javax.swing.SwingUtilities
 
 class OptionsPanel(
     private val convertTo: EFileType,
-    private val convertFrom: EFileType
+    private val convertFrom: PsiFile
 ) : JPanel(), ActionListener {
     private var keepOgFileCheckBox = JCheckBox()
     private var cancelButton = JButton("Cancel")
@@ -55,7 +57,7 @@ class OptionsPanel(
             }
             confirmButton -> {
                 SwingUtilities.getWindowAncestor(this).dispose()
-                TODO("Not yet implemented")
+                Converter.instance.convert(convertFrom, convertTo)
             }
             else -> {}
         }

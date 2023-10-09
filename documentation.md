@@ -55,3 +55,14 @@ Es gibt zwei potenzielle Fehlerquellen in der Zeile.
 2. Da wir einen String zu einem Enum umwandeln kann dort ein Fehler auftreten, falls dem String kein Wert zugewiesen werden kann.
 
 Wir haben die Menüs so gestaltet, dass besagte Variable nicht null oder außerhalb der erwarteten Parameter liegen können.
+
+## 09.10.23
+
+In den Actions wir bei From jetzt die datei übergeben da wir diese ja auslesen wollen.
+
+Wir haben jetzt `Tree` und `Node`. Das sind unsere internen Klassen.
+Diese haben wir erstmal simpel und übersichtlich gestaltet, was sich noch ändern kann.
+
+für die Konverter haben wir Interfaces erstellt. Einmal `IConvertFrom` und `IConvertTo`.
+
+Der `Converter` wir vom `OptionsPanel` aufgerufen.
