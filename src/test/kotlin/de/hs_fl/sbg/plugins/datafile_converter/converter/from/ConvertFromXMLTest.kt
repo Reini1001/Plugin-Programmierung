@@ -1,6 +1,5 @@
-package converter.from
+package de.hs_fl.sbg.plugins.datafile_converter.converter.from
 
-import de.hs_fl.sbg.plugins.datafile_converter.converter.from.ConvertFromXML
 import org.apache.commons.lang3.tuple.MutablePair
 import org.junit.Test
 import java.io.File
@@ -9,7 +8,7 @@ class ConvertFromXMLTest {
 
     @Test
     fun testConvertForProperties() {
-        val input = File("./src/test/kotlin/converter/from/testConvertForProperties.xml")
+        val input = File("./src/test/kotlin/de/hs_fl/sbg/plugins/datafile_converter/converter/from/testConvertForProperties.xml")
         if (!input.exists()) input.createNewFile()
 
         input.writeText("<Test id=\"123\" name=\"Hallo\" hasTest=\"true\" testFloat=\"123.456\"></Test>")
@@ -32,11 +31,12 @@ class ConvertFromXMLTest {
         assert(node.getProperties().contains(MutablePair("testFloat", 123.456)))
     }
 
+    @Test
     fun testConvertForChildren() {
-        val input = File("./src/test/kotlin/converter/from/testConvertForProperties.xml")
+        val input = File("./src/test/kotlin/de/hs_fl/sbg/plugins/datafile_converter/converter/from/testConvertForChildren.xml")
         if (!input.exists()) input.createNewFile()
 
-        input.writeText("<Test id=\"123\" name=\"Hallo\" hasTest=\"true\" testFloat=\"123.456\"></Test>")
+        input.writeText("<Layer1><Layer2a><Layer3></Layer3></Layer2a><Layer2b></Layer2b></Layer1>")
 
         val converter = ConvertFromXML()
         val output = converter.convert(input)
@@ -44,5 +44,12 @@ class ConvertFromXMLTest {
         assert(output.root != null)
 
         val node = output.root!!
+
+        assert(node.getChildren().any { it.name == "Layer2a" })
+        assert(node.getChildren().any { it.name == "Layer2b" })
+
+        val layer2a = node.getChildren().find { it.name == "Layer2a" }!!
+
+        assert(layer2a.getChildren().any{ it.name == "Layer3" })
     }
 }

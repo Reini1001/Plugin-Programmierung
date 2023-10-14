@@ -3,7 +3,7 @@ package de.hs_fl.sbg.plugins.datafile_converter.converter.from
 import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Node
 import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Tree
 import java.io.File
-import java.util.Stack
+import java.util.*
 
 class ConvertFromXML: IConvertFrom {
     override fun readFile(path: String): File {
@@ -20,7 +20,7 @@ class ConvertFromXML: IConvertFrom {
         var currentNode: Node? = null
         var pushToPath = false
 
-        file.readText().trim().split(">",).forEach{
+        file.readText().trim().split(">").forEach {
             val node: Node
 
             when {
@@ -46,13 +46,15 @@ class ConvertFromXML: IConvertFrom {
             if (tree == null) tree = Tree(node)
             if (currentNode == null) {
                 var current: Node = tree?.root!!
-                path.forEach { step ->
-                    current = current.getChildren().find { child ->  child.name == step } ?: TODO()
+
+                for (i in 1 until path.size ) {
+                    current = current.getChildren().find { child -> child.name == path[i] }!!
                 }
+
                 currentNode = current
-            } else {
-                currentNode!!.addChild(node)
             }
+
+            currentNode!!.addChild(node)
 
             if (pushToPath) {
                 path.push(node.name)
