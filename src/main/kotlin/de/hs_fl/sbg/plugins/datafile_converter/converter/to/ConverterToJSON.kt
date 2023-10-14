@@ -6,6 +6,12 @@ import kotlinx.serialization.json.*
 import java.io.File
 
 class ConverterToJSON : IConvertTo {
+
+    /**
+     * Converts the [Tree] to a [JsonObject] and writes it in a JSON-file at given path
+     * @param[tree] The [Tree] containing the data
+     * @param[pathFileName] The Path of the [File], including the name, excluding the file extension
+     */
     override fun convertAndWrite(tree: Tree, pathFileName: String) {
         val outputFile = File("$pathFileName.json")
 
@@ -15,14 +21,20 @@ class ConverterToJSON : IConvertTo {
         outputFile.writeText(json.toString())
     }
 
+    /**
+     * Recursively converts the given [Node] and all of its children to JSON
+     * @param[curNode] The [Node] that will be converted
+     * @param[json] The [JsonObjectBuilder] that the JSON is saved it.
+     */
     private fun nodeAsJSON(curNode: Node, json: JsonObjectBuilder): JsonObjectBuilder {
         json.putJsonObject(curNode.name) {
+            // save commonly used function calls in a val
             val properties = curNode.getProperties()
             val isPropertiesEmpty = properties.isEmpty()
             val children = curNode.getChildren()
             val isChildrenEmpty = children.isEmpty()
 
-            //properties
+            // properties. We need to check for the different types, for the smart-cast to work.
             for (pair in properties) {
                 val key = pair.key
                 when (val value = pair.value) {
@@ -40,7 +52,7 @@ class ConverterToJSON : IConvertTo {
                 // Empty children array, in case the object has no properties and no children, for whatever reason
                 this.putJsonArray("children") {}
             } else if (!isChildrenEmpty) {
-                //children
+                // recursively add the children
                 this.putJsonArray("children") {
                     for (child in children) {
                         addJsonObject { nodeAsJSON(child, this) }

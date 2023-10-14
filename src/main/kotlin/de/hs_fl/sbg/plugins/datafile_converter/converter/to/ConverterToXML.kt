@@ -2,10 +2,18 @@ package de.hs_fl.sbg.plugins.datafile_converter.converter.to
 
 import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Node
 import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Tree
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonObjectBuilder
 import java.io.BufferedWriter
 import java.io.File
 
 class ConverterToXML : IConvertTo {
+
+    /**
+     * Converts the [Tree] to a set of Strings in a [BufferedWriter] and writes it in a XML-file at given path
+     * @param[tree] The [Tree] containing the data
+     * @param[pathFileName] The Path of the file, including the name, excluding the file extension
+     */
     override fun convertAndWrite(tree: Tree, pathFileName: String) {
         val outputFile = File("$pathFileName.xml")
 
@@ -19,6 +27,11 @@ class ConverterToXML : IConvertTo {
         writer.close()
     }
 
+    /**
+     * Recursively converts the given [Node] and all of its children to JSON
+     * @param[curNode] The [Node] that will be converted
+     * @param[writer] The [BufferedWriter] that is writing the [File].
+     */
     private fun nodeToXML(curNode: Node, writer: BufferedWriter) {
         val properties = curNode.getProperties()
         val isPropertiesEmpty = properties.isEmpty()
