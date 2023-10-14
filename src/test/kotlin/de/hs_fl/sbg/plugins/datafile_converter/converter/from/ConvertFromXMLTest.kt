@@ -16,16 +16,14 @@ class ConvertFromXMLTest {
         val converter = ConvertFromXML()
         val output = converter.convert(input)
 
-        assert(output.root != null)
-
-        val node = output.root!!
+        val node = output.root
 
         node.getProperties().forEach {
             println("${it.key} = ${it.value} | ${it.value.javaClass.simpleName}")
         }
 
         assert(node.getProperties().isNotEmpty())
-        assert(node.getProperties().contains(MutablePair("id", (123).toShort())))
+        assert(node.getProperties().contains(MutablePair("id", (123).toInt())))
         assert(node.getProperties().contains(MutablePair("name", "Hallo")))
         assert(node.getProperties().contains(MutablePair("hasTest", true)))
         assert(node.getProperties().contains(MutablePair("testFloat", 123.456)))
@@ -36,14 +34,12 @@ class ConvertFromXMLTest {
         val input = File("./src/test/kotlin/de/hs_fl/sbg/plugins/datafile_converter/converter/from/testConvertForChildren.xml")
         if (!input.exists()) input.createNewFile()
 
-        input.writeText("<Layer1><Layer2a><Layer3></Layer3></Layer2a><Layer2b></Layer2b></Layer1>")
+        input.writeText("<Layer1> <Layer2a> <Layer3> </Layer3> </Layer2a> <Layer2b> </Layer2b> </Layer1>")
 
         val converter = ConvertFromXML()
         val output = converter.convert(input)
 
-        assert(output.root != null)
-
-        val node = output.root!!
+        val node = output.root
 
         assert(node.getChildren().any { it.name == "Layer2a" })
         assert(node.getChildren().any { it.name == "Layer2b" })

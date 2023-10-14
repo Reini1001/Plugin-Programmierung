@@ -1,11 +1,12 @@
 package de.hs_fl.sbg.plugins.datafile_converter.converter.from
 
-import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Node
+import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.IBuildTree
 import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Tree
+import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.TreeBuilder
 import java.io.File
-import java.util.*
 
 class ConvertFromXML: IConvertFrom {
+
     override fun readFile(path: String): File {
         val file = File(path)
 
@@ -15,89 +16,72 @@ class ConvertFromXML: IConvertFrom {
     }
 
     override fun convert(file: File): Tree {
-        val path: Stack<String> = Stack()
-        var tree: Tree? = null
-        var currentNode: Node? = null
-        var pushToPath = false
+        val builder = TreeBuilder()
 
-        file.readText().trim().split(">").forEach {
-            val node: Node
+        val tags = splitFileContent(file.readText())
 
+        tags.forEach{
             when {
                 it.startsWith("</") -> {
-                    path.pop()
-                    return@forEach
+                    builder.moveOut()
                 }
                 it.startsWith("<?") -> {
                     return@forEach
                 }
-                it.startsWith("<") && it.endsWith("/") -> {
-                    node = nodeFromStrings(it.substring(1, it.length - 2).trim().split(" "))
+                it.startsWith("<") && it.endsWith("/>") -> {
+                    builderInputFromString(it.substring(1, it.length - 2), builder)
+                    builder.moveOut()
                 }
                 it.startsWith("<") -> {
-                    node = nodeFromStrings(it.substring(1).trim().split(" "))
-                    pushToPath = true
+                    builderInputFromString(it.substring(1, it.length - 1), builder)
                 }
                 else -> {
-                    return@forEach
+
                 }
-            }
-
-            if (tree == null) tree = Tree(node)
-            if (currentNode == null) {
-                var current: Node = tree?.root!!
-
-                for (i in 1 until path.size ) {
-                    current = current.getChildren().find { child -> child.name == path[i] }!!
-                }
-
-                currentNode = current
-            }
-
-            currentNode!!.addChild(node)
-
-            if (pushToPath) {
-                path.push(node.name)
-                currentNode = null
             }
         }
 
-        return tree!!
+        return builder.build()
     }
 
-    private fun nodeFromStrings(strings: List<String>): Node {
-        val node = Node(strings[0])
-        for (i in 1 until strings.size) {
-            val keyValuePair = strings[i].split("=")
-            keyValuePair.forEach { it.trim() }
+    private fun splitFileContent(content: String): List<String> {
+        val outList: MutableList<String> = mutableListOf()
+        var contentNew = content.trim()
+        while (contentNew.isNotEmpty()) {
+            val splitIndex = if (contentNew.substring(0, 1) == "<") contentNew.indexOf('>') + 1 else contentNew.indexOf('<')
+            outList.add(contentNew.substring(0, splitIndex))
+            contentNew = contentNew.substring(splitIndex).trim()
+        }
+        return outList
+    }
+
+    private fun builderInputFromString(input: String, builder: IBuildTree) {
+        val parameter = input.split(" ")
+        builder.newNode(parameter[0])
+
+        for (i in 1 until parameter.size) {
+            val keyValuePair = parameter[i].split("=")
+            keyValuePair.forEach{ it.trim() }
             val key = keyValuePair[0]
             val value = keyValuePair[1].substring(1, keyValuePair[1].length - 1)
 
             when {
                 value.toBooleanStrictOrNull() != null -> {
-                    node.addProperty(key, value.toBooleanStrict())
-                }
-                value.toShortOrNull() != null -> {
-                    node.addProperty(key, value.toShort())
+                    builder.addProperty(key, value.toBooleanStrict())
                 }
                 value.toIntOrNull() != null -> {
-                    node.addProperty(key, value.toInt())
+                    builder.addProperty(key, value.toInt())
                 }
                 value.toLongOrNull() != null -> {
-                    node.addProperty(key, value.toLong())
+                    builder.addProperty(key, value.toLong())
                 }
                 value.toDoubleOrNull() != null -> {
-                    node.addProperty(key, value.toDouble())
-                }
-                value.toFloatOrNull() != null -> {
-                    node.addProperty(key, value.toFloat())
+                    builder.addProperty(key, value.toDouble())
                 }
                 else -> {
-                    node.addProperty(key, value)
+                    builder.addProperty(key, value)
                 }
             }
         }
-
-        return node
     }
 }
