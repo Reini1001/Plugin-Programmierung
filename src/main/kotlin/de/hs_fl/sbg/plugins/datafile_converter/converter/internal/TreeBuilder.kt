@@ -20,20 +20,25 @@ class TreeBuilder: IBuildTree {
     }
 
     override fun build(): Tree {
-        return Tree(nodes.firstElement())
+        val root = nodes.firstElement()
+        findChildProperties(root)
+        return Tree(root)
     }
 
     private fun findChildProperties(node: Node) {
         val children = node.getChildren()
 
         children.forEach { child ->
-            if (children.any { otherChild -> otherChild !== child && otherChild.name == child.name }) {
-
+            if (child.getChildren().isEmpty() &&
+                !node.getProperties().any { entry -> entry.key == child.name} &&
+                !children.any { otherChild -> otherChild !== child && otherChild.name == child.name }
+                ) {
+                child.getProperties().find { property -> property.key == "_Content" }?.let {
+                    node.addProperty(child.name, it.value)
+                    node.removeChild(child)
+                }
             }
         }
-
-
-
 
         children.forEach { findChildProperties(it) }
     }

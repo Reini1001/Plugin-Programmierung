@@ -48,4 +48,25 @@ class ConvertFromXMLTest {
 
         assert(layer2a.getChildren().any{ it.name == "Layer3" })
     }
+
+    @Test
+    fun testDemo() {
+        val input = File("./src/test/kotlin/de/hs_fl/sbg/plugins/datafile_converter/converter/from/testDemo.xml")
+        if (!input.exists()) input.createNewFile()
+
+        input.writeText("<root id=\"123\" name=\"Name\"><Tag>TestTag</Tag></root>")
+
+        val converter = ConvertFromXML()
+        val output = converter.convert(input)
+
+        val node = output.root
+
+        node.getProperties().forEach {
+            println("${it.key}: ${it.value} | ${it.value.javaClass.simpleName}")
+        }
+
+        node.getChildren().forEach {
+            println(it)
+        }
+    }
 }

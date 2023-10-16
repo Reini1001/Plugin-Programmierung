@@ -39,4 +39,7 @@ class Node(var name: String) {
         children.add(child)
     }
 
+    fun removeChild(child: Node) {
+        children.remove(child)
+    }
 }

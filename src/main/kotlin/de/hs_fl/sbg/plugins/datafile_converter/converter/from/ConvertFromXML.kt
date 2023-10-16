@@ -36,7 +36,7 @@ class ConvertFromXML: IConvertFrom {
                     builderInputFromString(it.substring(1, it.length - 1), builder)
                 }
                 else -> {
-
+                    builder.addProperty("_Content", it.trim())
                 }
             }
         }
@@ -65,23 +65,7 @@ class ConvertFromXML: IConvertFrom {
             val key = keyValuePair[0]
             val value = keyValuePair[1].substring(1, keyValuePair[1].length - 1)
 
-            when {
-                value.toBooleanStrictOrNull() != null -> {
-                    builder.addProperty(key, value.toBooleanStrict())
-                }
-                value.toIntOrNull() != null -> {
-                    builder.addProperty(key, value.toInt())
-                }
-                value.toLongOrNull() != null -> {
-                    builder.addProperty(key, value.toLong())
-                }
-                value.toDoubleOrNull() != null -> {
-                    builder.addProperty(key, value.toDouble())
-                }
-                else -> {
-                    builder.addProperty(key, value)
-                }
-            }
+            builder.addProperty(key, ConvertFromUtils.toTypeOrDefault(value))
         }
     }
 }
