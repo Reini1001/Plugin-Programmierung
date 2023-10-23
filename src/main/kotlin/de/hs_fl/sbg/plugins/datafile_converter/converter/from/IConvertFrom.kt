@@ -1,11 +1,24 @@
 package de.hs_fl.sbg.plugins.datafile_converter.converter.from
 
 import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Tree
+import java.io.File
 
 interface IConvertFrom {
 
-    fun readFile(path: String): List<String>
+    /**
+     * Reads [File] from path and return it
+     *
+     * @param path The Path to the [File] to be converted
+     * @return File for the given path
+     */
+    fun readFile(path: String): File
 
-    fun convert(data: List<String>) : Tree
+    /**
+     * Converts [File] to [Tree]
+     *
+     * @param file [File] to be converted
+     * @return [Tree] created from [File] content
+     */
+    fun convert(file: File) : Tree
 
 }
