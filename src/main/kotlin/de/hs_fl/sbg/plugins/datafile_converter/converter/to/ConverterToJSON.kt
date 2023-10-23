@@ -25,6 +25,7 @@ class ConverterToJSON : IConvertTo {
      * Recursively converts the given [Node] and all of its children to JSON
      * @param[curNode] The [Node] that will be converted
      * @param[json] The [JsonObjectBuilder] that the JSON is saved it.
+     * @return[JsonObjectBuilder] The json, ready to be written to a file.
      */
     private fun nodeAsJSON(curNode: Node, json: JsonObjectBuilder): JsonObjectBuilder {
         json.putJsonObject(curNode.name) {
@@ -35,6 +36,7 @@ class ConverterToJSON : IConvertTo {
             val isChildrenEmpty = children.isEmpty()
 
             // properties. We need to check for the different types, for the smart-cast to work.
+            // If we just put the value inside, it tries to cast to [JsonElement], which will not work.
             for (pair in properties) {
                 val key = pair.key
                 when (val value = pair.value) {
@@ -44,6 +46,7 @@ class ConverterToJSON : IConvertTo {
                     is Double -> put(key, value)
                     is Boolean -> put(key, value)
                     is String -> put(key, value)
+                    // Technically speaking, this else will never execute, but we're keeping it to be safe.
                     else -> put(key, value.toString())
                 }
             }
