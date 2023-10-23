@@ -13,6 +13,12 @@ class Converter() {
         val instance: Converter by lazy { Converter() }
     }
 
+    /**
+     * Converts File from One Type to another
+     *
+     *  @param from File from witch should be converted
+     *  @param to FileType to witch should be converted
+     **/
     fun convert(from: PsiFile, to: EFileType) {
         val converterFrom: IConvertFrom = when(EFileType.valueOf(from.fileType.name)) {
             EFileType.XML -> ConvertFromXML()
