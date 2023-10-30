@@ -1,8 +1,8 @@
 package de.hs_fl.sbg.plugins.datafile_converter.converter.from
 
-import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.IBuildTree
 import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Tree
-import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.TreeBuilder
+import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.tree_builder.TreeBuilder
+import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.tree_builder.XMLTreeBuilder
 import java.io.File
 
 class ConvertFromXML: IConvertFrom {
@@ -16,7 +16,7 @@ class ConvertFromXML: IConvertFrom {
     }
 
     override fun convert(file: File): Tree {
-        val builder = TreeBuilder()
+        val builder = XMLTreeBuilder()
 
         val tags = splitFileContent(file.readText())
 
@@ -55,7 +55,7 @@ class ConvertFromXML: IConvertFrom {
         return outList
     }
 
-    private fun builderInputFromString(input: String, builder: IBuildTree) {
+    private fun builderInputFromString(input: String, builder: TreeBuilder) {
         val parameter = input.split(" ")
         builder.newNode(parameter[0])
 
