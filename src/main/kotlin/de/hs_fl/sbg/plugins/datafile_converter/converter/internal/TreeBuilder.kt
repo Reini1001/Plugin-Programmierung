@@ -15,7 +15,7 @@ class TreeBuilder: IBuildTree {
         if (nodes.size > 1) nodes.pop()
     }
 
-    override fun addProperty(key: String, value: Any) = apply {
+    override fun addProperty(key: String, value: Any?) = apply {
         nodes.peek().addProperty(key, value)
     }
 

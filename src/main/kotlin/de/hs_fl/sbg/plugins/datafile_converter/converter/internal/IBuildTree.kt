@@ -23,7 +23,7 @@ interface IBuildTree {
      * @param value The Value of the property
      * @return The worked on instance of [IBuildTree]
      **/
-    fun addProperty(key: String, value: Any): TreeBuilder
+    fun addProperty(key: String, value: Any?): TreeBuilder
 
     /**
      * Builds and return the [Tree]
