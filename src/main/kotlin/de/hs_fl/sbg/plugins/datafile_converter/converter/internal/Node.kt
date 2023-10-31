@@ -6,7 +6,7 @@ import kotlin.collections.MutableMap.MutableEntry
 
 class Node(var name: String) {
 
-    constructor(name: String, properties: MutableSet<MutableEntry<String, Any>>) : this(name) {
+    constructor(name: String, properties: MutableSet<MutableEntry<String, Any?>>) : this(name) {
         this.properties = properties
     }
 
@@ -14,16 +14,16 @@ class Node(var name: String) {
         this.children = children
     }
 
-    constructor(name: String, properties: MutableSet<MutableEntry<String, Any>>, children: MutableList<Node>) : this(name) {
+    constructor(name: String, properties: MutableSet<MutableEntry<String, Any?>>, children: MutableList<Node>) : this(name) {
         this.properties = properties
         this.children = children
     }
 
-    private var properties: MutableSet<MutableEntry<String, Any>> = mutableSetOf()
+    private var properties: MutableSet<MutableEntry<String, Any?>> = mutableSetOf()
 
     private var children: MutableList<Node> = mutableListOf()
 
-    fun getProperties(): Set<Entry<String, Any>> {
+    fun getProperties(): Set<Entry<String, Any?>> {
         return properties.map { it }.toSet()
     }
 
@@ -31,7 +31,7 @@ class Node(var name: String) {
         return children.toList()
     }
 
-    fun addProperty(key: String, value: Any) {
+    fun addProperty(key: String, value: Any?) {
         properties.add(MutablePair(key, value))
     }
 
