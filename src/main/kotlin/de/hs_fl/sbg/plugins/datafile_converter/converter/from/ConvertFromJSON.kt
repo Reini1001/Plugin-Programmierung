@@ -68,7 +68,7 @@ class ConvertFromJSON: IConvertFrom {
                     builder.moveOut()
                 }
                 is JsonObject -> {
-                    builder.newNode(it.toString())
+                    builder.newNode(it.toString()) // TODO: find / generate objektname
                     builderInputFromJsonObject(it, builder)
                     builder.moveOut()
                 }
