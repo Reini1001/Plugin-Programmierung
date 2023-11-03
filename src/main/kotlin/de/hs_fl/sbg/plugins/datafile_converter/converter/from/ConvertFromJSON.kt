@@ -20,27 +20,57 @@ class ConvertFromJSON: IConvertFrom {
 
         val json = Json.parseToJsonElement(file.readText()) as JsonObject
 
-        json.forEach { t, u ->
-            println(u.javaClass)
+        builderInputFromJsonObject(json, builder)
+
+        return builder.build()
+    }
+
+    private fun builderInputFromJsonObject(input: JsonObject, builder: TreeBuilder) {
+        input.forEach { t, u ->
 
             when (u) {
                 is JsonPrimitive -> {
-                    val converted = u as JsonPrimitive
                     builder.addProperty(t, ConvertFromUtils.toTypeOrDefault(u.content))
                 }
                 is JsonArray -> {
-                    // TODO: check for Objects
-                    builder.addProperty(t, u.toList() as List<Any>)
+                    builder.newNode("Array").addProperty("name", t)
+                    builderInputFromJsonArray(u, builder)
+                    builder.moveOut()
                 }
                 is JsonObject -> {
-
+                    builder.newNode(t)
+                    builderInputFromJsonObject(u, builder)
+                    builder.moveOut()
                 }
                 is JsonNull -> {
-                    TODO() // builder.addProperty(t, null)
+                    builder.addProperty(t, null)
                 }
             }
         }
+    }
 
-        return builder.build()
+    private fun builderInputFromJsonArray(input: JsonArray, builder: TreeBuilder) {
+        input.forEach {
+            builder.newNode("Entry")
+            when (it) {
+                is JsonPrimitive -> {
+                    builder.addProperty("value", ConvertFromUtils.toTypeOrDefault(it.content))
+                }
+                is JsonArray -> {
+                    builder.newNode("Array").addProperty("name", it.toString())
+                    builderInputFromJsonArray(it, builder)
+                    builder.moveOut()
+                }
+                is JsonObject -> {
+                    builder.newNode(it.toString())
+                    builderInputFromJsonObject(it, builder)
+                    builder.moveOut()
+                }
+                is JsonNull -> {
+                    builder.addProperty("value", null)
+                }
+            }
+            builder.moveOut()
+        }
     }
 }

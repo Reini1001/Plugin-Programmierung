@@ -35,7 +35,7 @@ open class TreeBuilder {
      * @param value The Value of the property
      * @return The worked on instance of [TreeBuilder]
      **/
-    fun addProperty(key: String, value: Any) = apply {
+    fun addProperty(key: String, value: Any?) = apply {
         nodes.peek().addProperty(key, value)
     }
 
