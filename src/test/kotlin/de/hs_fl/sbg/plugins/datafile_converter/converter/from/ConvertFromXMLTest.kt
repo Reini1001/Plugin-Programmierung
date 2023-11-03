@@ -19,7 +19,7 @@ class ConvertFromXMLTest {
         val node = output.root
 
         node.getProperties().forEach {
-            println("${it.key} = ${it.value} | ${it.value.javaClass.simpleName}")
+            println("${it.key} = ${it.value} | ${it.value!!.javaClass.simpleName}")
         }
 
         assert(node.getProperties().isNotEmpty())
@@ -62,7 +62,7 @@ class ConvertFromXMLTest {
         val node = output.root
 
         node.getProperties().forEach {
-            println("${it.key}: ${it.value} | ${it.value.javaClass.simpleName}")
+            println("${it.key}: ${it.value} | ${it.value!!.javaClass.simpleName}")
         }
 
         node.getChildren().forEach {
