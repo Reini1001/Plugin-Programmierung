@@ -44,6 +44,11 @@ class ConvertFromXML: IConvertFrom {
         return builder.build()
     }
 
+    /**
+     * Splits the given XML-[String] into Node and Content parts.
+     *
+     * @param content XML-[String]
+     **/
     private fun splitFileContent(content: String): List<String> {
         val outList: MutableList<String> = mutableListOf()
         var contentNew = content.trim()
@@ -55,6 +60,9 @@ class ConvertFromXML: IConvertFrom {
         return outList
     }
 
+    /**
+     * Creates the [TreeBuilder] inputs from given [String]
+     **/
     private fun builderInputFromString(input: String, builder: TreeBuilder) {
         val parameter = input.split(" ")
         builder.newNode(parameter[0])

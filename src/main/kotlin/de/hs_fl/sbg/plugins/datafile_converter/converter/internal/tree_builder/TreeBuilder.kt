@@ -8,7 +8,7 @@ open class TreeBuilder {
     protected var nodes: Stack<Node> = Stack()
 
     /**
-     * Adds a new Node to the Tree
+     * Adds a new [Node] to the [Tree] and adds it to the [Stack]
      *
      * @param name Name of the new Node
      * @return The worked on instance of [TreeBuilder]
@@ -20,7 +20,7 @@ open class TreeBuilder {
     }
 
     /**
-     * Makes a current Nodes parent the current Node
+     * Pops the top [Node] from the [Stack]
      *
      * @return The worked on instance of [TreeBuilder]
      **/
@@ -29,7 +29,7 @@ open class TreeBuilder {
     }
 
     /**
-     * Adds a new Property to the currently active Node
+     * Adds a new Property to the top [Node] on the [Stack]
      *
      * @param key The Name of the property
      * @param value The Value of the property
@@ -40,9 +40,7 @@ open class TreeBuilder {
     }
 
     /**
-     * Builds and return the [Tree]
-     *
-     * @return The finished [Tree]
+     * Builds and returns the [Tree]
      **/
     open fun build(): Tree {
         return Tree(nodes.firstElement())

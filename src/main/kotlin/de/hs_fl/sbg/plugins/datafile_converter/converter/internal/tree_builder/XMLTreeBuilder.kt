@@ -10,6 +10,12 @@ class XMLTreeBuilder: TreeBuilder() {
         return Tree(root)
     }
 
+    /**
+     * Works recursively through all [Node]s and checks whether they can and should be properties.
+     * If a match is found it is converted.
+     *
+     * @param node Start [Node]
+     **/
     private fun findChildProperties(node: Node) {
         val children = node.getChildren()
 

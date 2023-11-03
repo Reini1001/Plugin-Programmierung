@@ -6,18 +6,12 @@ import java.io.File
 interface IConvertFrom {
 
     /**
-     * Reads [File] from path and return it
-     *
-     * @param path The Path to the [File] to be converted
-     * @return File for the given path
+     * Returns [File] for the given path.
      */
     fun readFile(path: String): File
 
     /**
      * Converts [File] to [Tree]
-     *
-     * @param file [File] to be converted
-     * @return [Tree] created from [File] content
      */
     fun convert(file: File) : Tree
 
