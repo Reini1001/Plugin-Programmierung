@@ -1,8 +1,8 @@
 package de.hs_fl.sbg.plugins.datafile_converter.converter.from
 
-import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.IBuildTree
 import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Tree
-import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.TreeBuilder
+import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.tree_builder.TreeBuilder
+import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.tree_builder.XMLTreeBuilder
 import java.io.File
 
 class ConvertFromXML: IConvertFrom {
@@ -16,7 +16,7 @@ class ConvertFromXML: IConvertFrom {
     }
 
     override fun convert(file: File): Tree {
-        val builder = TreeBuilder()
+        val builder = XMLTreeBuilder()
 
         val tags = splitFileContent(file.readText())
 
@@ -44,6 +44,11 @@ class ConvertFromXML: IConvertFrom {
         return builder.build()
     }
 
+    /**
+     * Splits the given XML-[String] into Node and Content parts.
+     *
+     * @param content XML-[String]
+     **/
     private fun splitFileContent(content: String): List<String> {
         val outList: MutableList<String> = mutableListOf()
         var contentNew = content.trim()
@@ -55,7 +60,10 @@ class ConvertFromXML: IConvertFrom {
         return outList
     }
 
-    private fun builderInputFromString(input: String, builder: IBuildTree) {
+    /**
+     * Creates the [TreeBuilder] inputs from given [String]
+     **/
+    private fun builderInputFromString(input: String, builder: TreeBuilder) {
         val parameter = input.split(" ")
         builder.newNode(parameter[0])
 

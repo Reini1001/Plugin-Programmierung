@@ -2,6 +2,10 @@ package de.hs_fl.sbg.plugins.datafile_converter.converter.from
 
 class ConvertFromUtils {
     companion object {
+        /**
+         * Converts [String] to [Boolean], [Int], [Long] or [Double] if possible.
+         * Otherwise, it returns the [String]
+         **/
         fun toTypeOrDefault(string: String): Any {
             when {
                 string.toBooleanStrictOrNull() != null -> {

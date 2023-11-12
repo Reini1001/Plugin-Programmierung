@@ -1,14 +1,82 @@
 package de.hs_fl.sbg.plugins.datafile_converter.converter.from
 
 import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Tree
+import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.tree_builder.TreeBuilder
+import kotlinx.serialization.json.*
 import java.io.File
 
 class ConvertFromJSON: IConvertFrom {
     override fun readFile(path: String): File {
-        TODO("Not yet implemented")
+        val file = File(path)
+
+        if (!file.exists()) TODO()
+
+        return file
     }
 
     override fun convert(file: File): Tree {
-        TODO("Not yet implemented")
+        val builder = TreeBuilder()
+        builder.newNode("root")
+
+        val json = Json.parseToJsonElement(file.readText()) as JsonObject
+
+        builderInputFromJsonObject(json, builder)
+
+        return builder.build()
+    }
+
+    /**
+     * Creates the [TreeBuilder] inputs from given [JsonObject] and calls the respective function on its children.
+     **/
+    private fun builderInputFromJsonObject(input: JsonObject, builder: TreeBuilder) {
+        input.forEach { t, u ->
+
+            when (u) {
+                is JsonPrimitive -> {
+                    builder.addProperty(t, ConvertFromUtils.toTypeOrDefault(u.content))
+                }
+                is JsonArray -> {
+                    builder.newNode("Array").addProperty("name", t)
+                    builderInputFromJsonArray(u, builder)
+                    builder.moveOut()
+                }
+                is JsonObject -> {
+                    builder.newNode(t)
+                    builderInputFromJsonObject(u, builder)
+                    builder.moveOut()
+                }
+                is JsonNull -> {
+                    builder.addProperty(t, null)
+                }
+            }
+        }
+    }
+
+    /**
+     * Creates the [TreeBuilder] inputs from given [JsonArray] and calls the respective function on its children.
+     **/
+    private fun builderInputFromJsonArray(input: JsonArray, builder: TreeBuilder) {
+        input.forEach {
+            builder.newNode("Entry")
+            when (it) {
+                is JsonPrimitive -> {
+                    builder.addProperty("value", ConvertFromUtils.toTypeOrDefault(it.content))
+                }
+                is JsonArray -> {
+                    builder.newNode("Array").addProperty("name", it.toString())
+                    builderInputFromJsonArray(it, builder)
+                    builder.moveOut()
+                }
+                is JsonObject -> {
+                    builder.newNode("EntryObject") // TODO: find / generate objektname
+                    builderInputFromJsonObject(it, builder)
+                    builder.moveOut()
+                }
+                is JsonNull -> {
+                    builder.addProperty("value", null)
+                }
+            }
+            builder.moveOut()
+        }
     }
 }

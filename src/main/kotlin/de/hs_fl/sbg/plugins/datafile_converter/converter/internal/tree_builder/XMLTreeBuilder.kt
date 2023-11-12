@@ -1,30 +1,21 @@
-package de.hs_fl.sbg.plugins.datafile_converter.converter.internal
+package de.hs_fl.sbg.plugins.datafile_converter.converter.internal.tree_builder
 
-import java.util.Stack
+import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Node
+import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Tree
 
-class TreeBuilder: IBuildTree {
-    private var nodes: Stack<Node> = Stack()
-
-    override fun newNode(name: String) = apply {
-        val newNode = Node(name)
-        if(!nodes.empty()) nodes.peek().addChild(newNode)
-        nodes.push(newNode)
-    }
-
-    override fun moveOut() = apply {
-        if (nodes.size > 1) nodes.pop()
-    }
-
-    override fun addProperty(key: String, value: Any?) = apply {
-        nodes.peek().addProperty(key, value)
-    }
-
+class XMLTreeBuilder: TreeBuilder() {
     override fun build(): Tree {
         val root = nodes.firstElement()
         findChildProperties(root)
         return Tree(root)
     }
 
+    /**
+     * Works recursively through all [Node]s and checks whether they can and should be properties.
+     * If a match is found it is converted.
+     *
+     * @param node Start [Node]
+     **/
     private fun findChildProperties(node: Node) {
         val children = node.getChildren()
 
