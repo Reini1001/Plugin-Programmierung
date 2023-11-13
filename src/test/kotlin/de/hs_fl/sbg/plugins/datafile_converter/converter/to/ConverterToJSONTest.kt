@@ -13,6 +13,7 @@ class ConverterToJSONTest {
         tree.root.addProperty("testInt", 1)
         tree.root.addProperty("testFloat", 3.141)
         tree.root.addProperty("testBool", false)
+        tree.root.addProperty("testNull", null)
         tree.root.addProperty("testString", "String")
 
         val extraNode = Node("testNodeNoChildren")
