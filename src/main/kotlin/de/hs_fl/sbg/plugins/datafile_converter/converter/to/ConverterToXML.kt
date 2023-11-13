@@ -2,15 +2,13 @@ package de.hs_fl.sbg.plugins.datafile_converter.converter.to
 
 import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Node
 import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Tree
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonObjectBuilder
 import java.io.BufferedWriter
 import java.io.File
 
 class ConverterToXML : IConvertTo {
 
     /**
-     * Converts the [Tree] to a set of Strings in a [BufferedWriter] and writes it in a XML-file at given path
+     * Converts the [Tree] to a set of Strings in a [BufferedWriter] and writes it in an XML-file at given path
      * @param[tree] The [Tree] containing the data
      * @param[pathFileName] The Path of the file, including the name, excluding the file extension
      */
@@ -22,7 +20,7 @@ class ConverterToXML : IConvertTo {
         writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
         writer.newLine()
 
-        nodeToXML(tree.root, writer)
+        nodesToXML(tree.root, writer)
 
         writer.close()
     }
@@ -32,7 +30,7 @@ class ConverterToXML : IConvertTo {
      * @param[curNode] The [Node] that will be converted
      * @param[writer] The [BufferedWriter] that is writing the [File].
      */
-    private fun nodeToXML(curNode: Node, writer: BufferedWriter) {
+    private fun nodesToXML(curNode: Node, writer: BufferedWriter) {
         val properties = curNode.getProperties()
         val isPropertiesEmpty = properties.isEmpty()
         val children = curNode.getChildren()
@@ -41,29 +39,42 @@ class ConverterToXML : IConvertTo {
 
         if (isChildrenEmpty && isPropertiesEmpty) {
             writer.appendLine("<$name/>")
-        } else if(!isChildrenEmpty) {
+        } else if (!isChildrenEmpty) {
             if (isPropertiesEmpty)
                 writer.appendLine("<$name>")
             else {
-                writer.append("<$name")
-                for (pair in properties) {
-                    writer.append(" ${pair.key}=\"${pair.value}\"")
-                }
-                writer.appendLine(">")
+                convertNodeWithProperties(name, properties, writer, false)
             }
-            
+
             for (child in children) {
-                nodeToXML(child, writer)
+                nodesToXML(child, writer)
             }
 
             writer.appendLine("</$name>")
         } else {
-            writer.append("<$name")
-            for (pair in properties) {
-                writer.append(" ${pair.key}=\"${pair.value}\"")
-            }
-            writer.appendLine("/>")
+            convertNodeWithProperties(name, properties, writer, true)
         }
+    }
+
+    /**
+     * Helper function, that creates a single line with the name of the [Node] and it's properties.
+     * @param[name] The name of the [Node]
+     * @param[properties] The properties of the [Node], usually obtained using [Node.getProperties]
+     * @param[writer] The [BufferedWriter] that is used to write to a File
+     * @param[shouldCloseNode] Defines, weather or not the node should be closed on the same line. True, if there are no children, otherwise false
+     */
+    private fun convertNodeWithProperties(
+        name: String,
+        properties: Set<Map.Entry<String, Any?>>,
+        writer: BufferedWriter,
+        shouldCloseNode: Boolean
+    ) {
+        writer.append("<$name")
+        for (pair in properties) {
+            val value = if (pair.value != null) pair.value else "_NULL"
+            writer.append(" ${pair.key}=\"$value\"")
+        }
+        writer.appendLine(if (shouldCloseNode) "/>" else ">")
     }
 
 }
