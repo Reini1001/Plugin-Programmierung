@@ -3,6 +3,7 @@ package de.hs_fl.sbg.plugins.datafile_converter.converter.to
 import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Node
 import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Tree
 import kotlinx.serialization.json.*
+import org.apache.commons.lang3.ObjectUtils.Null
 import java.io.File
 
 class ConverterToJSON : IConvertTo {
@@ -40,6 +41,7 @@ class ConverterToJSON : IConvertTo {
             for (pair in properties) {
                 val key = pair.key
                 when (val value = pair.value) {
+                    null -> put(key, null as String?)
                     is Int -> put(key, value)
                     is Long -> put(key, value)
                     is Float -> put(key, value)
