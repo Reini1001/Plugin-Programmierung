@@ -6,7 +6,7 @@ class ConvertFromUtils {
          * Converts [String] to [Boolean], [Int], [Long] or [Double] if possible.
          * Otherwise, it returns the [String]
          **/
-        fun toTypeOrDefault(string: String): Any {
+        fun toTypeOrDefault(string: String): Any? {
             when {
                 string.toBooleanStrictOrNull() != null -> {
                     return string.toBooleanStrict()
@@ -19,6 +19,9 @@ class ConvertFromUtils {
                 }
                 string.toDoubleOrNull() != null -> {
                     return string.toDouble()
+                }
+                string == "_Null" -> {
+                    return null;
                 }
                 else -> {
                     return string
