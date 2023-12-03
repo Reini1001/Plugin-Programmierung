@@ -36,6 +36,9 @@
 
             <action id="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToJSONAction"
                     class="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToJSONAction" text="JSON"/>
+
+            <action id="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToYAMLAction"
+                    class="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToYAMLAction" text="YAML"/>
         </group>
         <action id="de.hs_fl.sbg.plugins.datafile_converter.actions.GetFiletypeNameAction"
                 class="de.hs_fl.sbg.plugins.datafile_converter.actions.GetFiletypeNameAction" text="Get Filetype">

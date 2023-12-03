@@ -13,7 +13,7 @@ class ConverterToXML : IConvertTo {
      * @param[pathFileName] The Path of the file, including the name, excluding the file extension
      */
     override fun convertAndWrite(tree: Tree, pathFileName: String) {
-        val outputFile = File("$pathFileName.xml")
+        val outputFile = File("${pathFileName}.xml")
 
         if (!outputFile.exists()) outputFile.createNewFile()
         val writer = outputFile.bufferedWriter()
@@ -35,7 +35,7 @@ class ConverterToXML : IConvertTo {
         val isPropertiesEmpty = properties.isEmpty()
         val children = curNode.getChildren()
         val isChildrenEmpty = children.isEmpty()
-        val name = curNode.name
+        val name = escapeSpecialChars(curNode.name)
 
         if (isChildrenEmpty && isPropertiesEmpty) {
             writer.appendLine("<$name/>")
@@ -72,9 +72,17 @@ class ConverterToXML : IConvertTo {
         writer.append("<$name")
         for (pair in properties) {
             val value = if (pair.value != null) pair.value else "_NULL"
-            writer.append(" ${pair.key}=\"$value\"")
+            writer.append(" ${pair.key}=\"${escapeSpecialChars(value.toString())}\"")
         }
         writer.appendLine(if (shouldCloseNode) "/>" else ">")
+    }
+
+    private fun escapeSpecialChars(input: String): String {
+        return input.replace("\"", "&quot;")
+            .replace("\'", "&apos;")
+            .replace("<", "&lt;")
+            .replace(">", "&rt;")
+            .replace("&", "&amp;")
     }
 
 }

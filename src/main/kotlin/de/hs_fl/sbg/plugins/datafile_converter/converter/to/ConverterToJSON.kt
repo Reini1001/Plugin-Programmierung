@@ -3,7 +3,6 @@ package de.hs_fl.sbg.plugins.datafile_converter.converter.to
 import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Node
 import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Tree
 import kotlinx.serialization.json.*
-import org.apache.commons.lang3.ObjectUtils.Null
 import java.io.File
 
 class ConverterToJSON : IConvertTo {
@@ -14,7 +13,7 @@ class ConverterToJSON : IConvertTo {
      * @param[pathFileName] The Path of the [File], including the name, excluding the file extension
      */
     override fun convertAndWrite(tree: Tree, pathFileName: String) {
-        val outputFile = File("$pathFileName.json")
+        val outputFile = File("${pathFileName}.json")
 
         val json = buildJsonObject { nodeAsJSON(tree.root, this) }
 
