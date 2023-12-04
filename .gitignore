@@ -40,3 +40,10 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+src/test/kotlin/de/hs_fl/sbg/plugins/datafile_converter/converter/from/ConvertFromJSONTest.json
+src/test/kotlin/de/hs_fl/sbg/plugins/datafile_converter/converter/from/testConvertForChildren.xml
+src/test/kotlin/de/hs_fl/sbg/plugins/datafile_converter/converter/from/testConvertForProperties.xml
+src/test/kotlin/de/hs_fl/sbg/plugins/datafile_converter/converter/from/testDemo.xml
+src/test/kotlin/de/hs_fl/sbg/plugins/datafile_converter/converter/Test.json
+src/test/kotlin/de/hs_fl/sbg/plugins/datafile_converter/converter/Test.xml
+src/test/kotlin/de/hs_fl/sbg/plugins/datafile_converter/converter/Test.yaml
