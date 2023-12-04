@@ -115,7 +115,7 @@ class ConverterToYAML : IConvertTo {
             }
 
             resultMap[original] = count
-            newName
+            return@map newName
         }
     }
 

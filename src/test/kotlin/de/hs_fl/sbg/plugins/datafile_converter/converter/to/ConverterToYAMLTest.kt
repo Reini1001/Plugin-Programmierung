@@ -42,6 +42,6 @@ class ConverterToYAMLTest {
 
         val converter = ConverterToYAML()
         converter.convertAndWrite(tree, "./src/test/kotlin/de/hs_fl/sbg/plugins/datafile_converter/converter/Test")
-        assert(File("./src/test/kotlin/de/hs_fl/sbg/plugins/datafile_converter/converter/Test.xml").exists())
+        assert(File("./src/test/kotlin/de/hs_fl/sbg/plugins/datafile_converter/converter/Test.yaml").exists())
     }
 }
