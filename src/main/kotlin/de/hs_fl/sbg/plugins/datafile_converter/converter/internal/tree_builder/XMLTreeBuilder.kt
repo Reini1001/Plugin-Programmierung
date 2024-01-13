@@ -24,8 +24,8 @@ class XMLTreeBuilder: TreeBuilder() {
                 !node.getProperties().any { entry -> entry.key == child.name} &&
                 !children.any { otherChild -> otherChild !== child && otherChild.name == child.name }
                 ) {
-                child.getProperties().find { property -> property.key == "_Content" }?.let {
-                    node.addProperty(child.name, it.value)
+                child.getProperties()["_Content"]?.let {
+                    node.addProperty(child.name, it)
                     node.removeChild(child)
                 }
             }
