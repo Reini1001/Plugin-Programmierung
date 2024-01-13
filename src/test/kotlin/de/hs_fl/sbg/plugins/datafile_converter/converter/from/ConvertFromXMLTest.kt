@@ -1,6 +1,5 @@
 package de.hs_fl.sbg.plugins.datafile_converter.converter.from
 
-import org.apache.commons.lang3.tuple.MutablePair
 import org.junit.Test
 import java.io.File
 
@@ -23,10 +22,10 @@ class ConvertFromXMLTest {
         }
 
         assert(node.getProperties().isNotEmpty())
-        assert(node.getProperties().contains(MutablePair("id", (123).toInt())))
-        assert(node.getProperties().contains(MutablePair("name", "Hallo")))
-        assert(node.getProperties().contains(MutablePair("hasTest", true)))
-        assert(node.getProperties().contains(MutablePair("testFloat", 123.456)))
+        assert(node.getProperties()["id"] == 123)
+        assert(node.getProperties()["name"] == "Hallo")
+        assert(node.getProperties()["hasTest"] == true)
+        assert(node.getProperties()["testFloat"] == 123.456)
     }
 
     @Test

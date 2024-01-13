@@ -23,6 +23,8 @@ class ConvertFromCSVTest {
         }
         println()
 
-        assert(true)
+        assert(tree.root.getChildren().find { entry -> entry.getProperties().values.contains("John") } != null)
+        assert(tree.root.getChildren().find { entry -> entry.getProperties().values.contains("Alice") } != null)
+        assert(tree.root.getChildren().find { entry -> entry.getProperties().values.contains("Eva") } != null)
     }
 }
