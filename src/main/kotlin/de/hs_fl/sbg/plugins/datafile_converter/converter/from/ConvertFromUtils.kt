@@ -20,8 +20,9 @@ class ConvertFromUtils {
                 string.toDoubleOrNull() != null -> {
                     return string.toDouble()
                 }
+                // Special null indicator for XML
                 string == "_Null" -> {
-                    return null;
+                    return null
                 }
                 else -> {
                     return string

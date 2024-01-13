@@ -6,7 +6,7 @@ import java.io.File
 interface IConvertFrom {
 
     /**
-     * Returns [File] for the given path.
+     * Returns [File] for path.
      */
     fun readFile(path: String): File
 

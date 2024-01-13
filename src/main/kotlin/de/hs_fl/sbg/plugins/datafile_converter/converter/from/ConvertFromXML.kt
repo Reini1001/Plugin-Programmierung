@@ -61,7 +61,7 @@ class ConvertFromXML: IConvertFrom {
     }
 
     /**
-     * Creates the [TreeBuilder] inputs from given [String]
+     * Adds an XML-Node-[String] to the [TreeBuilder]
      **/
     private fun builderInputFromString(input: String, builder: TreeBuilder) {
         val parameter = input.split(" ")

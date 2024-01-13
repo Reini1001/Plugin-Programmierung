@@ -26,7 +26,7 @@ class ConvertFromJSON: IConvertFrom {
     }
 
     /**
-     * Creates the [TreeBuilder] inputs from given [JsonObject] and calls the respective function on its children.
+     * Adds a [JsonObject] to the [TreeBuilder] and calls the respective functions to add its children.
      **/
     private fun builderInputFromJsonObject(input: JsonObject, builder: TreeBuilder) {
         input.forEach { t, u ->
@@ -45,15 +45,12 @@ class ConvertFromJSON: IConvertFrom {
                     builderInputFromJsonObject(u, builder)
                     builder.moveOut()
                 }
-                is JsonNull -> {
-                    builder.addProperty(t, null)
-                }
             }
         }
     }
 
     /**
-     * Creates the [TreeBuilder] inputs from given [JsonArray] and calls the respective function on its children.
+     * Adds a [JsonArray] to the [TreeBuilder] and calls the respective functions to add its children.
      **/
     private fun builderInputFromJsonArray(input: JsonArray, builder: TreeBuilder) {
         input.forEach {
@@ -71,9 +68,6 @@ class ConvertFromJSON: IConvertFrom {
                     builder.newNode("EntryObject") // TODO: find / generate objektname
                     builderInputFromJsonObject(it, builder)
                     builder.moveOut()
-                }
-                is JsonNull -> {
-                    builder.addProperty("value", null)
                 }
             }
             builder.moveOut()
