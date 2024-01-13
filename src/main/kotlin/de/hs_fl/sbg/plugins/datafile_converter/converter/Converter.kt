@@ -1,6 +1,7 @@
 package de.hs_fl.sbg.plugins.datafile_converter.converter
 
 import com.intellij.psi.PsiFile
+import de.hs_fl.sbg.plugins.datafile_converter.converter.from.ConvertFromCSV
 import de.hs_fl.sbg.plugins.datafile_converter.converter.from.ConvertFromJSON
 import de.hs_fl.sbg.plugins.datafile_converter.converter.from.ConvertFromXML
 import de.hs_fl.sbg.plugins.datafile_converter.converter.from.IConvertFrom
@@ -8,7 +9,7 @@ import de.hs_fl.sbg.plugins.datafile_converter.converter.to.ConverterToJSON
 import de.hs_fl.sbg.plugins.datafile_converter.converter.to.ConverterToXML
 import de.hs_fl.sbg.plugins.datafile_converter.converter.to.ConverterToYAML
 import de.hs_fl.sbg.plugins.datafile_converter.converter.to.IConvertTo
-import java.lang.IllegalArgumentException
+import kotlin.IllegalArgumentException
 import kotlin.io.path.Path
 import kotlin.io.path.deleteIfExists
 
@@ -23,10 +24,11 @@ class Converter() {
      *  @param from File from witch should be converted
      *  @param to FileType to witch should be converted
      **/
-    fun convert(from: PsiFile, to: EFileType) {
+    fun convert(from: PsiFile, to: EFileType, keepOgFile: Boolean) {
         val converterFrom: IConvertFrom = when(EFileType.valueOf(from.fileType.name)) {
             EFileType.XML -> ConvertFromXML()
             EFileType.JSON -> ConvertFromJSON()
+            EFileType.CSV -> ConvertFromCSV()
             else -> throw IllegalArgumentException("That Filetype is export-only") //This probably won't occur ever, but better safe than sorry
         }
 
@@ -34,6 +36,7 @@ class Converter() {
             EFileType.XML -> ConverterToXML()
             EFileType.JSON -> ConverterToJSON()
             EFileType.YAML -> ConverterToYAML()
+            else -> throw IllegalArgumentException("That Filetype is import-only") //This probably won't occur ever, but better safe than sorry
         }
 
         converterTo.convertAndWrite(
@@ -43,7 +46,6 @@ class Converter() {
             from.containingDirectory.virtualFile.path + "/" + from.virtualFile.nameWithoutExtension
         )
 
-        //TODO: abfragen, ob die Datei gelöscht werden soll
-        Path(from.virtualFile.path).deleteIfExists()
+        if (!keepOgFile) Path(from.virtualFile.path).deleteIfExists()
     }
 }

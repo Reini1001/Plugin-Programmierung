@@ -6,7 +6,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 
 class ConvertToActionGroup : DefaultActionGroup() {
-    private val validTypes = listOf("XML", "JSON")
+    private val validTypes = listOf("XML", "JSON", "CSV")
 
     override fun update(e: AnActionEvent) {
         val filetypeName = e.getData(CommonDataKeys.PSI_FILE)?.fileType?.name

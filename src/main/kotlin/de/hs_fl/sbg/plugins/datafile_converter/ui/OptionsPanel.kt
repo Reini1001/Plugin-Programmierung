@@ -57,7 +57,7 @@ class OptionsPanel(
             }
             confirmButton -> {
                 SwingUtilities.getWindowAncestor(this).dispose()
-                Converter.instance.convert(convertFrom, convertTo)
+                Converter.instance.convert(convertFrom, convertTo, keepOgFile)
             }
             else -> {}
         }
