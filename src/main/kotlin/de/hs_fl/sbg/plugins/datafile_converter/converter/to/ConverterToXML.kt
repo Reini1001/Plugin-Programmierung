@@ -65,7 +65,7 @@ class ConverterToXML : IConvertTo {
      */
     private fun convertNodeWithProperties(
         name: String,
-        properties: Set<Map.Entry<String, Any?>>,
+        properties: Map<String, Any?>,
         writer: BufferedWriter,
         shouldCloseNode: Boolean
     ) {
