@@ -9,6 +9,8 @@ import de.hs_fl.sbg.plugins.datafile_converter.converter.to.ConverterToXML
 import de.hs_fl.sbg.plugins.datafile_converter.converter.to.ConverterToYAML
 import de.hs_fl.sbg.plugins.datafile_converter.converter.to.IConvertTo
 import java.lang.IllegalArgumentException
+import kotlin.io.path.Path
+import kotlin.io.path.deleteIfExists
 
 class Converter() {
     companion object {
@@ -40,5 +42,8 @@ class Converter() {
             ),
             from.containingDirectory.virtualFile.path + "/" + from.virtualFile.nameWithoutExtension
         )
+
+        //TODO: abfragen, ob die Datei gelöscht werden soll
+        Path(from.virtualFile.path).deleteIfExists()
     }
 }
