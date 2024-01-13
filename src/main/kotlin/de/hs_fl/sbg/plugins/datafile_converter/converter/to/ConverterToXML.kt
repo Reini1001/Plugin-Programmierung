@@ -26,7 +26,7 @@ class ConverterToXML : IConvertTo {
     }
 
     /**
-     * Recursively converts the given [Node] and all of its children to JSON
+     * Recursively converts the given [Node] and all of its children to XML
      * @param[curNode] The [Node] that will be converted
      * @param[writer] The [BufferedWriter] that is writing the [File].
      */
@@ -77,6 +77,11 @@ class ConverterToXML : IConvertTo {
         writer.appendLine(if (shouldCloseNode) "/>" else ">")
     }
 
+    /**
+    * Escapes special chars, that would otherwise cause problems in XML
+    * @param[input] The String to escape
+    * @return The escaped String
+    */
     private fun escapeSpecialChars(input: String): String {
         return input.replace("\"", "&quot;")
             .replace("\'", "&apos;")

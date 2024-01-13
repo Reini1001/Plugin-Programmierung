@@ -7,6 +7,12 @@ import java.io.BufferedWriter
 import java.io.File
 
 class ConverterToYAML : IConvertTo {
+
+    /**
+     * Converts the [Tree] to a set of Strings in a [BufferedWriter] and writes it in an YAML-file at given path
+     * @param[tree] The [Tree] containing the data
+     * @param[pathFileName] The Path of the file, including the name, excluding the file extension
+     */
     override fun convertAndWrite(tree: Tree, pathFileName: String) {
         val outputFile = File("${pathFileName}.yaml")
 
@@ -20,6 +26,12 @@ class ConverterToYAML : IConvertTo {
         writer.close()
     }
 
+    /**
+     * Recursively converts the given [Node] and all of its children to YAML
+     * @param[curNode] The [Node] that will be converted
+     * @param[writer] The [BufferedWriter] that is writing the [File].
+     * @param[prefix] The prefix for every line. Is used for correct indentation. Use "" on first call.
+     */
     private fun nodesToYaml(curNode: Node, writer: BufferedWriter, prefix: String) {
         val nextPrefix = "$prefix  "
         val properties = curNode.getProperties()
@@ -39,6 +51,11 @@ class ConverterToYAML : IConvertTo {
         }
     }
 
+    /**
+     * Escapes special chars, that would otherwise cause problems in YAML
+     * @param[input] The String to escape
+     * @return The escaped String
+     */
     private fun escapeSpecialChars(input: String): String {
         return "\"${
             input.replace("\\", "\\\\")
@@ -49,6 +66,11 @@ class ConverterToYAML : IConvertTo {
         }\""
     }
 
+    /**
+     * Takes a given value and prepares it to be used in YAML, escaping special chars if needed
+     * @param[value] The value to be used.
+     * @return The prepared value, as a String.
+     */
     private fun getYamlValue(value: Any?): String {
         return when (value) {
             null -> "~"
@@ -65,6 +87,11 @@ class ConverterToYAML : IConvertTo {
         }
     }
 
+    /**
+     * Checks if there are any duplicate names in the Node and renames them, if any are found,
+     * since this would otherwise cause an issue in YAML. Only changes the Node, if there are duplicates.
+     * @param[node] The node to check and potentially correct.
+     */
     private fun checkAndCorrectDuplicateNames(node: Node) {
         val children = node.getChildren()
         var names = mutableListOf<String>()
@@ -88,6 +115,12 @@ class ConverterToYAML : IConvertTo {
         }
     }
 
+    /**
+     * Helper-function for use in [checkAndCorrectDuplicateNames].
+     * Takes a list of Strings and returns True if any duplicates are found.
+     * @param[inputList] The list to check for duplicates.
+     * @return True if duplicates are found, False if none are found.
+     */
     private fun hasDuplicates(inputList: List<String>): Boolean {
         val seen = mutableSetOf<String>()
 
@@ -102,6 +135,14 @@ class ConverterToYAML : IConvertTo {
         return false
     }
 
+    /**
+     * Helper-function for use in [checkAndCorrectDuplicateNames].
+     * Will take a list of Strings and rename the duplicates.
+     *
+     * This process follows this pattern: name, name_1, name_2, name_3, ...
+     * @param[inputList] The list, which is changed.
+     * @return The changed list.
+     */
     private fun renameDuplicates(inputList: List<String>): List<String> {
         val resultMap = mutableMapOf<String, Int>()
 
