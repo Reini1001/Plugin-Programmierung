@@ -3,7 +3,7 @@ package de.hs_fl.sbg.plugins.datafile_converter.converter.from
 import org.junit.Test
 import java.io.File
 
-class ConvertFromXMLTest {
+class ConverterFromXMLTest {
 
     @Test
     fun testConvertForProperties() {
@@ -12,7 +12,7 @@ class ConvertFromXMLTest {
 
         input.writeText("<Test id=\"123\" name=\"Hallo\" hasTest=\"true\" testFloat=\"123.456\"></Test>")
 
-        val converter = ConvertFromXML()
+        val converter = ConverterFromXML()
         val output = converter.convert(input)
 
         val node = output.root
@@ -35,7 +35,7 @@ class ConvertFromXMLTest {
 
         input.writeText("<Layer1> <Layer2a> <Layer3> </Layer3> </Layer2a> <Layer2b> </Layer2b> </Layer1>")
 
-        val converter = ConvertFromXML()
+        val converter = ConverterFromXML()
         val output = converter.convert(input)
 
         val node = output.root
@@ -55,7 +55,7 @@ class ConvertFromXMLTest {
 
         input.writeText("<root id=\"123\" name=\"Name\"><Tag>TestTag</Tag></root>")
 
-        val converter = ConvertFromXML()
+        val converter = ConverterFromXML()
         val output = converter.convert(input)
 
         val node = output.root

@@ -1,6 +1,6 @@
 package de.hs_fl.sbg.plugins.datafile_converter.converter.from
 
-class ConvertFromUtils {
+class ConverterFromUtils {
     companion object {
         /**
          * Converts [String] to [Boolean], [Int], [Long] or [Double] if possible.

@@ -5,7 +5,7 @@ import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.tree_builder.T
 import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.tree_builder.XMLTreeBuilder
 import java.io.File
 
-class ConvertFromXML: IConvertFrom {
+class ConverterFromXML: IConvertFrom {
 
     override fun readFile(path: String): File {
         val file = File(path)
@@ -73,7 +73,7 @@ class ConvertFromXML: IConvertFrom {
             val key = keyValuePair[0]
             val value = keyValuePair[1].substring(1, keyValuePair[1].length - 1)
 
-            builder.addProperty(key, ConvertFromUtils.toTypeOrDefault(value))
+            builder.addProperty(key, ConverterFromUtils.toTypeOrDefault(value))
         }
     }
 }

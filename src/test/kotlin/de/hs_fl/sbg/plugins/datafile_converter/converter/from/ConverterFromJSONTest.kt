@@ -5,7 +5,7 @@ import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Tree
 import org.junit.Test
 import java.io.File
 
-class ConvertFromJSONTest {
+class ConverterFromJSONTest {
 
     @Test
     fun test () {
@@ -15,7 +15,7 @@ class ConvertFromJSONTest {
             input.writeText("{\"stringKey\": \"StringValue\", \"numberKey\": 1234, \"booleanKey\": true, \"nullKey\": null, \"arrayKey\": [1, \"string\", null, true, {}], \"objectKey\": { \"nestedString\": \"Nested\", \"nestedNumber\": 5678, \"nestedBoolean\": false, \"nestedNull\": null } }")
         }
 
-        val tree = ConvertFromJSON().convert(input)
+        val tree = ConverterFromJSON().convert(input)
 
         printTree(tree)
         assert(true)

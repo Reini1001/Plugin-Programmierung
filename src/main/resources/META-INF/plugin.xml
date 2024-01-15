@@ -40,10 +40,5 @@
             <action id="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToYAMLAction"
                     class="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToYAMLAction" text="YAML"/>
         </group>
-        <action id="de.hs_fl.sbg.plugins.datafile_converter.actions.GetFiletypeNameAction"
-                class="de.hs_fl.sbg.plugins.datafile_converter.actions.GetFiletypeNameAction" text="Get Filetype">
-            <add-to-group group-id="ProjectViewPopupMenu" anchor="after"
-                          relative-to-action="de.hs_fl.sbg.plugins.datafile_converter.actions.ConvertToActionGroup"/>
-        </action>
     </actions>
 </idea-plugin>

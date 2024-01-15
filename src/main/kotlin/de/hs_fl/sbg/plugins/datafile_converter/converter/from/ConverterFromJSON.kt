@@ -5,7 +5,7 @@ import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.tree_builder.T
 import kotlinx.serialization.json.*
 import java.io.File
 
-class ConvertFromJSON: IConvertFrom {
+class ConverterFromJSON: IConvertFrom {
     override fun readFile(path: String): File {
         val file = File(path)
 
@@ -33,7 +33,7 @@ class ConvertFromJSON: IConvertFrom {
 
             when (u) {
                 is JsonPrimitive -> {
-                    builder.addProperty(t, ConvertFromUtils.toTypeOrDefault(u.content))
+                    builder.addProperty(t, ConverterFromUtils.toTypeOrDefault(u.content))
                 }
                 is JsonArray -> {
                     builder.newNode("Array").addProperty("name", t)
@@ -57,7 +57,7 @@ class ConvertFromJSON: IConvertFrom {
             builder.newNode("Entry")
             when (it) {
                 is JsonPrimitive -> {
-                    builder.addProperty("value", ConvertFromUtils.toTypeOrDefault(it.content))
+                    builder.addProperty("value", ConverterFromUtils.toTypeOrDefault(it.content))
                 }
                 is JsonArray -> {
                     builder.newNode("Array").addProperty("name", it.toString())

@@ -4,7 +4,7 @@ import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.Tree
 import de.hs_fl.sbg.plugins.datafile_converter.converter.internal.tree_builder.TreeBuilder
 import java.io.File
 
-class ConvertFromCSV : IConvertFrom {
+class ConverterFromCSV : IConvertFrom {
     override fun readFile(path: String): File {
         val file = File(path)
 
@@ -15,6 +15,7 @@ class ConvertFromCSV : IConvertFrom {
 
     override fun convert(file: File): Tree {
         val builder = TreeBuilder()
+        builder.newNode("List")
 
         val lines = file.readLines()
 
@@ -24,7 +25,7 @@ class ConvertFromCSV : IConvertFrom {
         rows.forEach { row ->
             builder.newNode("Entry")
             for (i in columns.indices) {
-                builder.addProperty(columns[i], ConvertFromUtils.toTypeOrDefault(row[i]))
+                builder.addProperty(columns[i], ConverterFromUtils.toTypeOrDefault(row[i]))
             }
             builder.moveOut()
         }
